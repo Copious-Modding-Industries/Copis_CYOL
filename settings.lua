@@ -18,74 +18,101 @@ CurrentLanguage = GameTextGetTranslatedOrNot("$current_language")
 Translations = {--Translations or {
     ["searchbar"] = {
         ["English"] = "Search: ",
+        ["Deutsch"] = "Suche: ",
     },
     ["spawnchance"] = {
         ["English"] = "Probability: ",
+        ["Deutsch"] = "Warscheinlichkeit: ",
     },
     ["spellprobabilities"] = {
         ["English"] = "Spell Probabilities",
+        ["Deutsch"] = "Zauber Warscheinlichkeiten",
     },
     ["flaskprobabilities"] = {
         ["English"] = "Flask Probabilities" ,
+        ["Deutsch"] = "Trank Warscheinlichkeiten",
     },
     ["wandstatstab"] = {
         ["English"] = "Wand Stats" ,
+        ["Deutsch"] = "Zauberstab Werte",
     },
     ["spelltab"] = {
         ["English"] = "Spells" ,
+        ["Deutsch"] = "Zauber",
     },
     ["potiontab"] = {
         ["English"] = "Flasks" ,
+        ["Deutsch"] = "Tränke",
     },
     ["creditstab"] = {
         ["English"] = "Credits",
+        ["Deutsch"] = "Mitwirkende",
     },
     ["helpers"] = {
         ["English"] = "Helpers",
+        ["Deutsch"] = "Helfer",
     },
     ["wandstats"] = {
         ["English"] = "Wand Stats",
+        ["Deutsch"] = "Zauberstab Werte",
     },
     ["actionid"] = {
         ["English"] = "Action ID:",
+        ["Deutsch"] = "Zauber ID:",
     },
     ["minimum"] = {
         ["English"] = "Min",
+        ["Deutsch"] = "Min",
     },
     ["maximum"] = {
         ["English"] = "Max",
+        ["Deutsch"] = "Max",
     },
     ["spellspercast"] = {
         ["English"] = "Spells Per Cast",
+        ["Deutsch"] = "Zauber/Beschwörung",
     },
     ["manacapacity"] = {
         ["English"] = "Mana Capacity",
+        ["Deutsch"] = "Mana Kapazität",
     },
     ["manacharge"] = {
         ["English"] = "Mana Charge Speed",
+        ["Deutsch"] = "Mana-Lade-Geschwindigkeit",
     },
     ["spread"] = {
         ["English"] = "Spread Degrees",
+        ["Deutsch"] = "Streuung",
     },
     ["castdelay"] = {
         ["English"] = "Cast Delay",
+        ["Deutsch"] = "Zauberverzögerung",
     },
     ["reloadtime"] = {
         ["English"] = "Reload Time",
+        ["Deutsch"] = "Nachladezeit",
     },
     ["slots"] = {
         ["English"] = "Wand Capacity",
+        ["Deutsch"] = "Zauberstabkapazität",
     },
     ["spellcount"] = {
         ["English"] = "Generated Spells",
+        ["Deutsch"] = "Generierte Zauber",
     },
     ["englishtranslations"] = {
         ["English"] = "English Translations, Settings menu, Mod Contents.",
+        ["Deutsch"] = "???",
+    },
+    ["germantranslations"] = {
+        ["English"] = "German Translations, Help with GUIs.",
+        ["Deutsch"] = "???",
     },
 }
 
-Credits = Credits or {
+Credits = {--Credits or {
     ["Copi"] = Translations["englishtranslations"][CurrentLanguage],
+    ["Horscht"] = Translations["germantranslations"][CurrentLanguage],
 }
 
 Wands = {--Wands or {
@@ -256,11 +283,11 @@ Tabs = {--Tabs or {
                         GuiText(gui, 0, 0, index)
                         GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
                         GuiText(gui, 0, 0, credit)
-                        height = height + 27
-                    GuiLayoutAddVerticalSpacing(gui, 28)
+                        height = height + 28
                     GuiZSetForNextWidget(gui, 5)
                     GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png")
                 GuiLayoutEnd(gui)
+                GuiLayoutAddVerticalSpacing(gui, 18)
             end
         return height
         end,
