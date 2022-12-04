@@ -101,12 +101,12 @@ Translations = {--Translations or {
         ["Deutsch"] = "Generierte Zauber",
     },
     ["englishtranslations"] = {
-        ["English"] = "English Translations, Settings menu, Mod Contents.",
-        ["Deutsch"] = "???",
+        ["English"] = "English Translations, Settings menu, Mod Author.",
+        ["Deutsch"] = "Englische Übersetzung, Einstellungsmenü, Mod Autor.",
     },
     ["germantranslations"] = {
         ["English"] = "German Translations, Help with GUIs.",
-        ["Deutsch"] = "???",
+        ["Deutsch"] = "Deutsche Übersetzung, Hilfe bei GUIs.",
     },
 }
 
