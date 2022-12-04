@@ -14,8 +14,9 @@ mod_settings =
 function ModSettingsGuiCount()
     return mod_settings_gui_count(mod_id, mod_settings)
 end
+
 CurrentLanguage = GameTextGetTranslatedOrNot("$current_language")
-Translations = {--Translations or {
+Translations = { --Translations or {
     ["searchbar"] = {
         ["English"] = "Search: ",
         ["Deutsch"] = "Suche: ",
@@ -29,19 +30,19 @@ Translations = {--Translations or {
         ["Deutsch"] = "Zauber Warscheinlichkeiten",
     },
     ["flaskprobabilities"] = {
-        ["English"] = "Flask Probabilities" ,
+        ["English"] = "Flask Probabilities",
         ["Deutsch"] = "Trank Warscheinlichkeiten",
     },
     ["wandstatstab"] = {
-        ["English"] = "Wand Stats" ,
+        ["English"] = "Wand Stats",
         ["Deutsch"] = "Zauberstab Werte",
     },
     ["spelltab"] = {
-        ["English"] = "Spells" ,
+        ["English"] = "Spells",
         ["Deutsch"] = "Zauber",
     },
     ["potiontab"] = {
-        ["English"] = "Flasks" ,
+        ["English"] = "Flasks",
         ["Deutsch"] = "Tränke",
     },
     ["creditstab"] = {
@@ -100,6 +101,14 @@ Translations = {--Translations or {
         ["English"] = "Generated Spells",
         ["Deutsch"] = "Generierte Zauber",
     },
+    ["mainwand"] = {
+        ["English"] = "Main Wand",
+        ["Deutsch"] = "Haupt-Zauberstab",
+    },
+    ["bombwand"] = {
+        ["English"] = "Bomb Wand",
+        ["Deutsch"] = "Bomben-Zauberstab",
+    },
     ["englishtranslations"] = {
         ["English"] = "English Translations, Settings menu, Mod Author.",
         ["Deutsch"] = "Englische Übersetzung, Einstellungsmenü, Mod Autor.",
@@ -110,26 +119,26 @@ Translations = {--Translations or {
     },
 }
 
-Credits = {--Credits or {
+Credits = { --Credits or {
     ["Copi"] = Translations["englishtranslations"][CurrentLanguage],
     ["Horscht"] = Translations["germantranslations"][CurrentLanguage],
 }
 
-Wands = {--Wands or {
+Wands = { --Wands or {
     {
         name = "handgun",
         sprite = "data/items_gfx/handgun.png",
         defaults = {
-            false,      -- Shuffle
-            {2,3},      -- Capacity
-            {1,1},      -- Spell/Cast
-            {1,3},      -- Generated Spells
-            {20,28},    -- Reload Time
-            {9,15},     -- Cast Delay
-            {0,0},      -- Spread Deg
-            {25,40},    -- Mana Charge
-            {80,130},   -- Mana Max
-            "Wand"      -- Name
+            false, -- Shuffle
+            { 2, 3 }, -- Capacity
+            { 1, 1 }, -- Spell/Cast
+            { 1, 3 }, -- Generated Spells
+            { 20, 28 }, -- Reload Time
+            { 9, 15 }, -- Cast Delay
+            { 0, 0 }, -- Spread Deg
+            { 25, 40 }, -- Mana Charge
+            { 80, 130 }, -- Mana Max
+            "Wand" -- Name
         }
     },
     {
@@ -151,22 +160,22 @@ Stats = {
 }
 
 
-Tabs = {--Tabs or {
+Tabs = { --Tabs or {
     {
         name = Translations["spelltab"][CurrentLanguage],
-        ui_fn = function (gui, new_id, height)
-        GuiBeginAutoBox(gui)
-                GuiText(gui, 0, 0, Translations["spellprobabilities"][CurrentLanguage] )
+        ui_fn = function(gui, new_id, height)
+            GuiBeginAutoBox(gui)
+            GuiText(gui, 0, 0, Translations["spellprobabilities"][CurrentLanguage])
 
-                GuiLayoutBeginHorizontal(gui, 2, 0, false, 0, 0)
-                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                    GuiText(gui, 0, 0, Translations["searchbar"][CurrentLanguage])
-                    local query = tostring(ModSettingGetNextValue("copis_cyol.query")) or ""
-                    local query_new = GuiTextInput( gui, new_id(), 0, 0, query, 200, 100)
-                    if query ~= query_new then
-                        ModSettingSetNextValue( "copis_cyol.query", query_new, false )
-                    end
-                GuiLayoutEnd(gui)
+            GuiLayoutBeginHorizontal(gui, 2, 0, false, 0, 0)
+            GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+            GuiText(gui, 0, 0, Translations["searchbar"][CurrentLanguage])
+            local query = tostring(ModSettingGetNextValue("copis_cyol.query")) or ""
+            local query_new = GuiTextInput(gui, new_id(), 0, 0, query, 200, 100)
+            if query ~= query_new then
+                ModSettingSetNextValue("copis_cyol.query", query_new, false)
+            end
+            GuiLayoutEnd(gui)
 
             GuiZSetForNextWidget(gui, 5)
             GuiEndAutoBoxNinePiece(gui, 0, 275, 0, false, 0)
@@ -174,122 +183,128 @@ Tabs = {--Tabs or {
 
             dofile_once("mods/copis_cyol/actions.lua")
             for index, action in ipairs(Actions) do
-                if GameTextGetTranslatedOrNot( action.name ):upper():match(query:upper()) then
+                if GameTextGetTranslatedOrNot(action.name):upper():match(query:upper()) then
                     GuiBeginAutoBox(gui)
                     height = height + 39
                     GuiLayoutBeginHorizontal(gui, 2, 1, false, 0, 0)
-                        GuiImage(gui, new_id(), 0, 0, action.sprite, 1, 2, 2)
-                        GuiTooltip(gui, Translations["actionid"][CurrentLanguage], action.id)
-                        GuiLayoutBeginVertical(gui, 1, 0, false, 0, 0)
-                            GuiText(gui, 0, 0, GameTextGetTranslatedOrNot( action.name ) )
-                            GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                            GuiText(gui, 0, 0, GameTextGetTranslatedOrNot( action.description ) )
-                            GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                            local value = ModSettingGetNextValue( ("%s.spawn_prob_%s"):format(mod_id, action.id) )
-                            local value_new = GuiSlider( gui, new_id(), 0, 0, Translations["spawnchance"][CurrentLanguage], value, 0, 100, action.defaultprob, 1, "", 100 )
-                            if value ~= value_new then
-                                ModSettingSetNextValue( ("%s.spawn_prob_%s"):format(mod_id, action.id), value_new, false )
-                            end
-                            GuiLayoutEnd(gui)
+                    GuiImage(gui, new_id(), 0, 0, action.sprite, 1, 2, 2)
+                    GuiTooltip(gui, Translations["actionid"][CurrentLanguage], action.id)
+                    GuiLayoutBeginVertical(gui, 1, 0, false, 0, 0)
+                    GuiText(gui, 0, 0, GameTextGetTranslatedOrNot(action.name))
+                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+                    GuiText(gui, 0, 0, GameTextGetTranslatedOrNot(action.description))
+                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+                    local value = ModSettingGetNextValue(("%s.spawn_prob_%s"):format(mod_id, action.id))
+                    local value_new = GuiSlider(gui, new_id(), 0, 0, Translations["spawnchance"][CurrentLanguage], value
+                        , 0, 100, action.defaultprob, 1, "", 100)
+                    if value ~= value_new then
+                        ModSettingSetNextValue(("%s.spawn_prob_%s"):format(mod_id, action.id), value_new, false)
+                    end
+                    GuiLayoutEnd(gui)
                     GuiLayoutEnd(gui)
                     GuiLayoutAddVerticalSpacing(gui, 28)
                     GuiZSetForNextWidget(gui, 5)
-                    GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png", "data/ui_gfx/decorations/9piece0.png")
+                    GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png",
+                        "data/ui_gfx/decorations/9piece0.png")
                 end
             end
-        return height
+            return height
         end,
     },
     {
         name = Translations["wandstatstab"][CurrentLanguage],
-        ui_fn = function (gui, new_id, height)
+        ui_fn = function(gui, new_id, height)
             GuiBeginAutoBox(gui)
 
-            GuiText(gui, 0, 0, Translations["wandstats"][CurrentLanguage] )
+            GuiText(gui, 0, 0, Translations["wandstats"][CurrentLanguage])
             GuiText(gui, 0, 0, " ")
             GuiZSetForNextWidget(gui, 5)
             GuiEndAutoBoxNinePiece(gui, 0, 275, 0, false, 0)
             GuiLayoutAddVerticalSpacing(gui, 2)
             for _, Wand in ipairs(Wands) do
                 GuiLayoutBeginVertical(gui, 2, 1, false, 0, 0)
-                    GuiBeginAutoBox(gui)
-                        GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
-                            GuiImage(gui, new_id(), 0, 0, Wand.sprite, 1, 2, 2)
-                            GuiText(gui, 0, 0, Wand.name)
-                            GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
-                                for _, stat in ipairs(Stats) do
-                                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                                    local valuemin = ModSettingGetNextValue( ("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat) )
-                                    GuiOptionsAddForNextWidget( gui, 17 )
-                                    local valuemin_new = GuiSlider( gui, new_id(), 250, 0, ("%s %s"):format(Translations["minimum"][CurrentLanguage], Translations[stat][CurrentLanguage]), valuemin, 0, 100, 0, 1, "", 100 )
-                                    if valuemin ~= valuemin_new then
-                                        ModSettingSetNextValue( ("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat), valuemin_new, false )
-                                    end
-                                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                                    local valuemax = ModSettingGetNextValue( ("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat) )
-                                    GuiOptionsAddForNextWidget( gui, 17 )
-                                    local valuemax_new = GuiSlider( gui, new_id(), 250, 0, ("%s %s"):format(Translations["maximum"][CurrentLanguage], Translations[stat][CurrentLanguage]), valuemax, 0, 100, 0, 1, "", 100 )
-                                    if valuemax ~= valuemax_new then
-                                        ModSettingSetNextValue( ("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat), valuemax_new, false )
-                                    end
-                                    GuiLayoutAddVerticalSpacing(gui, 6)
-                                end
-                            GuiLayoutEnd(gui)
-                            height = height + 224
-                        GuiLayoutEnd(gui)
-                    GuiZSetForNextWidget(gui, 5)
-                    GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png")
+                GuiBeginAutoBox(gui)
+                GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
+                GuiImage(gui, new_id(), 0, 0, Wand.sprite, 1, 2, 2)
+                GuiText(gui, 0, 0, Wand.name)
+                GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
+                for _, stat in ipairs(Stats) do
+                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+                    local valuemin = ModSettingGetNextValue(("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat))
+                    GuiOptionsAddForNextWidget(gui, 17)
+                    local valuemin_new = GuiSlider(gui, new_id(), 250, 0,
+                        ("%s %s"):format(Translations["minimum"][CurrentLanguage], Translations[stat][CurrentLanguage]),
+                        valuemin, 0, 100, 0, 1, "", 100)
+                    if valuemin ~= valuemin_new then
+                        ModSettingSetNextValue(("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat), valuemin_new, false)
+                    end
+                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+                    local valuemax = ModSettingGetNextValue(("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat))
+                    GuiOptionsAddForNextWidget(gui, 17)
+                    local valuemax_new = GuiSlider(gui, new_id(), 250, 0,
+                        ("%s %s"):format(Translations["maximum"][CurrentLanguage], Translations[stat][CurrentLanguage]),
+                        valuemax, 0, 100, 0, 1, "", 100)
+                    if valuemax ~= valuemax_new then
+                        ModSettingSetNextValue(("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat), valuemax_new, false)
+                    end
+                    GuiLayoutAddVerticalSpacing(gui, 6)
+                end
                 GuiLayoutEnd(gui)
-                GuiLayoutAddVerticalSpacing(gui, 224)
+                height = height + 252
+                GuiLayoutEnd(gui)
+                GuiZSetForNextWidget(gui, 5)
+                GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png")
+                GuiLayoutEnd(gui)
+                GuiLayoutAddVerticalSpacing(gui, 252)
             end
-        return height
+            return height
         end,
     },
     {
         name = Translations["potiontab"][CurrentLanguage],
-        ui_fn = function (gui, new_id, height)
-        GuiBeginAutoBox(gui)
-                GuiText(gui, 0, 0, Translations["flaskprobabilities"][CurrentLanguage] )
+        ui_fn = function(gui, new_id, height)
+            GuiBeginAutoBox(gui)
+            GuiText(gui, 0, 0, Translations["flaskprobabilities"][CurrentLanguage])
 
-                GuiLayoutBeginHorizontal(gui, 2, 0, false, 0, 0)
-                    GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                    GuiText(gui, 0, 0, Translations["searchbar"][CurrentLanguage])
-                    local query = tostring(ModSettingGetNextValue("copis_cyol.query")) or ""
-                    local query_new = GuiTextInput( gui, new_id(), 0, 0, query, 200, 100)
-                    if query ~= query_new then
-                        ModSettingSetNextValue( "copis_cyol.query", query_new, false )
-                    end
-                GuiLayoutEnd(gui)
+            GuiLayoutBeginHorizontal(gui, 2, 0, false, 0, 0)
+            GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+            GuiText(gui, 0, 0, Translations["searchbar"][CurrentLanguage])
+            local query = tostring(ModSettingGetNextValue("copis_cyol.query")) or ""
+            local query_new = GuiTextInput(gui, new_id(), 0, 0, query, 200, 100)
+            if query ~= query_new then
+                ModSettingSetNextValue("copis_cyol.query", query_new, false)
+            end
+            GuiLayoutEnd(gui)
 
             GuiZSetForNextWidget(gui, 5)
             GuiEndAutoBoxNinePiece(gui, 0, 275, 0, false, 0)
             GuiLayoutAddVerticalSpacing(gui, 2)
-        return height
+            return height
         end,
     },
     {
         name = Translations["creditstab"][CurrentLanguage],
-        ui_fn = function (gui, new_id, height)
+        ui_fn = function(gui, new_id, height)
             GuiBeginAutoBox(gui)
 
-            GuiText(gui, 0, 0, Translations["helpers"][CurrentLanguage] )
+            GuiText(gui, 0, 0, Translations["helpers"][CurrentLanguage])
             GuiText(gui, 0, 0, " ")
             GuiZSetForNextWidget(gui, 5)
             GuiEndAutoBoxNinePiece(gui, 0, 275, 0, false, 0)
             GuiLayoutAddVerticalSpacing(gui, 2)
             for index, credit in pairs(Credits) do
                 GuiLayoutBeginVertical(gui, 2, 1, false, 0, 0)
-                    GuiBeginAutoBox(gui)
-                        GuiText(gui, 0, 0, index)
-                        GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
-                        GuiText(gui, 0, 0, credit)
-                        height = height + 28
-                    GuiZSetForNextWidget(gui, 5)
-                    GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png")
+                GuiBeginAutoBox(gui)
+                GuiText(gui, 0, 0, index)
+                GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
+                GuiText(gui, 0, 0, credit)
+                height = height + 28
+                GuiZSetForNextWidget(gui, 5)
+                GuiEndAutoBoxNinePiece(gui, 0, 250, 0, false, 0, "data/ui_gfx/decorations/9piece0_gray.png")
                 GuiLayoutEnd(gui)
                 GuiLayoutAddVerticalSpacing(gui, 18)
             end
-        return height
+            return height
         end,
     },
 }
@@ -299,30 +314,31 @@ function ModSettingsGui(gui, in_main_menu)
     screen_width, screen_height = GuiGetScreenDimensions(gui)
     mod_settings_gui(mod_id, mod_settings, gui, in_main_menu)
     GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
-        id = 420691337
-        local function new_id() id = id + 1; return id end
-        CurrentTab = CurrentTab or 1
-        GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
-            GuiLayoutBeginHorizontal(gui, 0, 0)
-                for index, tab in ipairs(Tabs) do
-                    GuiLayoutBeginVertical(gui, 0, 0, false)
-                    GuiOptionsAddForNextWidget( gui, 21 )
-                    GuiOptionsAddForNextWidget( gui, 28 )
-                    local pressed = GuiImageButton(gui, new_id(), -2, 0, "", "data/ui_gfx/decorations/tab.png")
-                    if pressed then
-                        CurrentTab = index
-                    end
-                    local td = GuiGetTextDimensions(gui, tab.name )
-                    GuiText(gui, td/2, -td/2, tab.name )
-                    GuiLayoutEnd(gui)
-                    GuiLayoutAddHorizontalSpacing(gui, 1)
-                end
+    id = 420691337
+    local function new_id() id = id + 1; return id end
 
-            GuiLayoutEnd(gui)
-            GuiLayoutAddVerticalSpacing(gui, 1)
-            local height = 42
-            height = Tabs[CurrentTab].ui_fn(gui, new_id, height)
+    CurrentTab = CurrentTab or 1
+    GuiLayoutBeginVertical(gui, 0, 0, false, 0, 0)
+    GuiLayoutBeginHorizontal(gui, 0, 0)
+    for index, tab in ipairs(Tabs) do
+        GuiLayoutBeginVertical(gui, 0, 0, false)
+        GuiOptionsAddForNextWidget(gui, 21)
+        GuiOptionsAddForNextWidget(gui, 28)
+        local pressed = GuiImageButton(gui, new_id(), -2, 0, "", "data/ui_gfx/decorations/tab.png")
+        if pressed then
+            CurrentTab = index
+        end
+        local td = GuiGetTextDimensions(gui, tab.name)
+        GuiText(gui, td / 2, -td / 2, tab.name)
         GuiLayoutEnd(gui)
+        GuiLayoutAddHorizontalSpacing(gui, 1)
+    end
+
+    GuiLayoutEnd(gui)
+    GuiLayoutAddVerticalSpacing(gui, 1)
+    local height = 42
+    height = Tabs[CurrentTab].ui_fn(gui, new_id, height)
+    GuiLayoutEnd(gui)
     GuiLayoutEnd(gui)
     GuiLayoutAddVerticalSpacing(gui, height)
 end
