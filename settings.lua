@@ -126,7 +126,7 @@ Credits = { --Credits or {
 
 Wands = { --Wands or {
     {
-        name = "handgun",
+        name = Translations["mainwand"][CurrentLanguage],
         sprite = "data/items_gfx/handgun.png",
         defaults = {
             false, -- Shuffle
@@ -142,9 +142,20 @@ Wands = { --Wands or {
         }
     },
     {
-        name = "bomb_wand",
+        name = Translations["bombwand"][CurrentLanguage],
         sprite = "data/items_gfx/bomb_wand.png",
-        defaults = {}
+        defaults = {
+            false, -- Shuffle
+            { 2, 3 }, -- Capacity
+            { 1, 1 }, -- Spell/Cast
+            { 1, 3 }, -- Generated Spells
+            { 20, 28 }, -- Reload Time
+            { 9, 15 }, -- Cast Delay
+            { 0, 0 }, -- Spread Deg
+            { 25, 40 }, -- Mana Charge
+            { 80, 130 }, -- Mana Max
+            "Wand" -- Name
+        }
     },
 }
 
@@ -195,8 +206,7 @@ Tabs = { --Tabs or {
                     GuiText(gui, 0, 0, GameTextGetTranslatedOrNot(action.description))
                     GuiColorSetForNextWidget(gui, 0.5, 0.5, 0.5, 1.0)
                     local value = ModSettingGetNextValue(("%s.spawn_prob_%s"):format(mod_id, action.id))
-                    local value_new = GuiSlider(gui, new_id(), 0, 0, Translations["spawnchance"][CurrentLanguage], value
-                        , 0, 100, action.defaultprob, 1, "", 100)
+                    local value_new = GuiSlider(gui, new_id(), 0, 0, Translations["spawnchance"][CurrentLanguage], value, 0, 100, action.defaultprob, 1, "", 100)
                     if value ~= value_new then
                         ModSettingSetNextValue(("%s.spawn_prob_%s"):format(mod_id, action.id), value_new, false)
                     end
@@ -233,8 +243,7 @@ Tabs = { --Tabs or {
                     local valuemin = ModSettingGetNextValue(("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat))
                     GuiOptionsAddForNextWidget(gui, 17)
                     local valuemin_new = GuiSlider(gui, new_id(), 250, 0,
-                        ("%s %s"):format(Translations["minimum"][CurrentLanguage], Translations[stat][CurrentLanguage]),
-                        valuemin, 0, 100, 0, 1, "", 100)
+                        ("%s %s"):format(Translations["minimum"][CurrentLanguage], Translations[stat][CurrentLanguage]), valuemin, 0, 100, 0, 1, "", 100)
                     if valuemin ~= valuemin_new then
                         ModSettingSetNextValue(("%s.%s_stat_%s_min"):format(mod_id, Wand.name, stat), valuemin_new, false)
                     end
@@ -242,8 +251,7 @@ Tabs = { --Tabs or {
                     local valuemax = ModSettingGetNextValue(("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat))
                     GuiOptionsAddForNextWidget(gui, 17)
                     local valuemax_new = GuiSlider(gui, new_id(), 250, 0,
-                        ("%s %s"):format(Translations["maximum"][CurrentLanguage], Translations[stat][CurrentLanguage]),
-                        valuemax, 0, 100, 0, 1, "", 100)
+                        ("%s %s"):format(Translations["maximum"][CurrentLanguage], Translations[stat][CurrentLanguage]), valuemax, 0, 100, 0, 1, "", 100)
                     if valuemax ~= valuemax_new then
                         ModSettingSetNextValue(("%s.%s_stat_%s_max"):format(mod_id, Wand.name, stat), valuemax_new, false)
                     end
